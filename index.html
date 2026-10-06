@@ -5,37 +5,57 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow">
   <title>Buddy Program · 2027.1</title>
+  <link rel="icon" type="image/png" href="assets/logo-buddy.png">
+  <link rel="stylesheet" href="assets/fonts/fonts.css">
   <link rel="stylesheet" href="css/style.css">
   <script src="vendor/read-excel-file.min.js" defer></script>
   <script src="js/planilha.js" defer></script>
+  <script src="vendor/exceljs.min.js" defer></script>
+  <script src="js/avaliacao.js" defer></script>
   <script src="js/app.js" defer></script>
 </head>
 <body>
-  <header class="brand"><span class="brand-mark" aria-hidden="true">b.</span><span>Buddy Program <small>PROCESSO SELETIVO · 2027.1</small></span></header>
+  <header class="brand"><img class="brand-logo" src="assets/logo-buddy.png" alt="Logo do Buddy Program" width="557" height="509"><span>Buddy Program <small>PROCESSO SELETIVO · 2027.1</small></span></header>
   <main>
     <section id="consulta" class="entry" aria-labelledby="entry-title">
-      <p class="eyebrow">CONEXÕES QUE ATRAVESSAM FRONTEIRAS</p>
-      <h1 id="entry-title">Seu próximo capítulo<br>começa aqui.</h1>
-      <p class="intro">Consulte sua candidatura ao Buddy Program.</p>
+      <div class="entry-content">
+      <p class="eyebrow">ÁREA DO ENTREVISTADOR · BUDDY PROGRAM 2027.1</p>
+      <h1 id="entry-title">FASE DE<br>ENTREVISTAS</h1>
+      <p class="intro">Consulte o currículo do candidato, conduza a entrevista e registre sua avaliação.</p>
       <form id="form-usuario" class="search-card">
-        <label for="usuario">Nome de usuário</label>
-        <div class="input-wrap"><input id="usuario" name="usuario" type="text" required autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="nome.sobrenome" aria-describedby="dica status"><span>@al.insper.edu.br</span></div>
-        <p id="dica" class="hint">Digite somente a parte do seu e-mail que vem antes do @.</p>
+        <label for="usuario">Usuário Insper do candidato</label>
+        <div class="input-wrap"><input id="usuario" name="usuario" type="text" required autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="usuário insper" aria-describedby="dica status"><span>@al.insper.edu.br</span></div>
+        <p id="dica" class="hint">Digite a parte do e-mail do candidato que vem antes do @.</p>
         <button id="confirmar" type="submit">Confirmar <span aria-hidden="true">→</span></button>
         <p id="status" role="status" aria-live="polite"></p>
       </form>
-      <p class="entry-footer">Pessoas, culturas e novas perspectivas.</p>
+      <div class="saved-panel"><p id="salvas-resumo" role="status"></p><button id="exportar-inicio" class="secondary" type="button">Baixar entrevistados.xlsx</button><p id="exportacao-status" role="status"></p></div>
+      <p class="entry-footer">As avaliações ficam salvas neste navegador. Baixe a planilha para guardar uma cópia ou compartilhá-la com a equipe.</p>
+      </div>
+      <div class="entry-art" aria-hidden="true"><img src="assets/logo-buddy.png" alt="" width="557" height="509"></div>
     </section>
     <section id="resultado" hidden aria-label="Currículo do candidato">
       <nav class="toolbar" aria-label="Ações do currículo"><button id="voltar" class="secondary" type="button">← Nova consulta</button><button id="imprimir" class="secondary" type="button">Imprimir / Salvar PDF</button></nav>
       <article class="resume">
-        <header class="resume-header"><p class="eyebrow">CANDIDATURA · BUDDY PROGRAM 2027.1</p><h1 id="nome" tabindex="-1"></h1><p id="formacao-resumo"></p><p id="email" class="contact"></p></header>
+        <header class="resume-header"><div class="resume-identity"><p class="eyebrow">CANDIDATURA · BUDDY PROGRAM 2027.1</p><img class="resume-logo" src="assets/logo-buddy.png" alt="Logo do Buddy Program" width="557" height="509"></div><h1 id="nome" tabindex="-1"></h1><p id="formacao-resumo"></p><p id="email" class="contact"></p></header>
         <div class="resume-body">
           <section><h2>Formação acadêmica</h2><dl><div><dt>Curso</dt><dd id="curso"></dd></div><div><dt>Semestre em 2027.1</dt><dd id="semestre"></dd></div></dl></section>
           <section><h2>Apresentação</h2><p id="apresentacao" class="answer"></p></section>
           <section><h2>Experiência no programa</h2><h3>Já participou como Buddy?</h3><p id="experiencia" class="answer"></p></section>
           <section><h2>Disponibilidade</h2><h3>Encontros online e organização de calendários</h3><p class="period">Novembro e dezembro de 2026 e janeiro de 2027</p><p id="organizacao" class="answer"></p><h3>Welcome Week</h3><p class="period">15 a 19 de fevereiro de 2027</p><p id="welcome" class="answer"></p></section>
           <section id="foto-secao" hidden><h2>Momento internacional</h2><div id="fotos"></div><p class="hint">O acesso à foto pode depender das permissões do arquivo original.</p></section>
+          <section class="evaluation" aria-labelledby="avaliacao-titulo">
+            <h2 id="avaliacao-titulo">Avaliação da entrevista</h2>
+            <p class="hint">Selecione uma nota de 0 a 5 em cada critério. A opção 0 representa zero estrelas.</p>
+            <form id="form-avaliacao">
+              <div id="criterios"></div>
+              <label for="anotacoes">Anotações do entrevistador</label>
+              <textarea id="anotacoes" rows="6" placeholder="Registre exemplos, observações e pontos relevantes da entrevista."></textarea>
+              <p id="avaliacao-status" role="status" aria-live="polite"></p>
+              <div class="evaluation-actions"><button id="salvar-avaliacao" type="submit">Salvar avaliação</button><button id="exportar-curriculo" class="secondary" type="button">Baixar entrevistados.xlsx</button></div>
+              <p class="hint">Salvar registra a avaliação neste navegador e inicia o download da planilha com todas as entrevistas salvas aqui. Ao avaliar novamente o mesmo usuário, a linha anterior é atualizada.</p>
+            </form>
+          </section>
         </div>
         <footer class="resume-footer">Buddy Program · Processo seletivo 2027.1</footer>
       </article>

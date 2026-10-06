@@ -2,7 +2,9 @@
   const el = id => document.getElementById(id);
   const fill = (id, value) => { el(id).textContent = value || 'Não informado'; };
   function showResume(person) {
+    BuddyEvaluation.open(person);
     for(const [id,key] of Object.entries({nome:'name',email:'email',curso:'course',semestre:'semester',apresentacao:'intro',experiencia:'experience',organizacao:'organization',welcome:'welcome'})) fill(id,person[key]);
+    el('nome').textContent = (person.name || 'Não informado').toLocaleUpperCase('pt-BR');
     el('formacao-resumo').textContent = person.course;
     el('fotos').replaceChildren();
     const urls = [...new Set(person.photo.match(/https?:\/\/[^\s;<>"\]]+/gi) || [])];
@@ -25,7 +27,7 @@
     const username = el('usuario').value.trim().toLowerCase();
     el('status').textContent = '';
     if (!username || /[\s@]/.test(username)) {
-      el('status').textContent = 'Digite somente seu usuário, sem espaços e sem @al.insper.edu.br.';
+      el('status').textContent = 'Digite somente o usuário do candidato, sem espaços e sem @al.insper.edu.br.';
       el('usuario').focus(); return;
     }
     el('confirmar').disabled = true; el('status').textContent = 'Buscando candidatura…';
@@ -38,6 +40,7 @@
     } finally { el('confirmar').disabled = false; }
   });
   el('voltar').addEventListener('click', () => {
+    if (!BuddyEvaluation.canLeave()) return;
     el('resultado').hidden = true; el('consulta').hidden = false;
     el('usuario').value = ''; el('status').textContent = ''; el('usuario').focus(); window.scrollTo(0,0);
   });
